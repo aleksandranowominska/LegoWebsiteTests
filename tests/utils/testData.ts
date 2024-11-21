@@ -27,8 +27,9 @@ export const urls = {
     cookieAcceptButton: '[data-test="cookie-accept-all"]',
     productTitle: '[data-test="product-leaf-title"]',
     infoButton: '[data-test="info-button"]',
+    productPrice: '[data-test="product-price-sale"]',
   };
-
+  
   export const priceRanges = {
     allRanges: 'ZOBACZ WSZYSTKIE PRZEDZIAŁY',
     below50: 'Poniżej 50 zł',
@@ -37,3 +38,12 @@ export const urls = {
     upTo500: 'zł - 500 zł',
     above500: 'Ponad 500 zł',
   };
+  
+  export const priceVerification = {
+    below50: { min: 0, max: 50 },
+    from50to100: { min: 50, max: 100 },
+    from100to200: { min: 100, max: 200 },
+    from200to500: { min: 200, max: 500 },
+    above500: { min: 500, max: Infinity },
+  };
+  
