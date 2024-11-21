@@ -11,5 +11,6 @@ export async function waitForAndClick(locator) {
     
     // Cookie confirmation
     await waitForAndClick(page.locator(locators.cookieAcceptButton));
+    console.log('Age gate confirmed and cookies accepted.');
   }
   
