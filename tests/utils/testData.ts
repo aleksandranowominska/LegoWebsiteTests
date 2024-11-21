@@ -1,17 +1,22 @@
-// Test data
 export const urls = {
     base: 'https://www.lego.com/pl-pl?age-gate=grown_up',
     productPage: 'https://www.lego.com/pl-pl/product/pirate-snub-fighter-75346',
+    helpPage: 'https://www.lego.com/pl-pl/help',
   };
   
   export const texts = {
     productTitle: 'Piracki myśliwiec',
     bodyVerification: 'Ograniczenie',
+    helpSearchQuery: 'instrukcje składania',
+    helpResultTitle: 'Jak pobrać instrukcje budowania online Gdzie trafiają wszystkie broszurki?',
+    feedbackMessage: 'Dzięki za opinię',
   };
   
   export const roles = {
     buyButton: 'Kupuj',
     priceRangeButton: 'Przedziały cenowe',
+    helpButton: 'Pomoc',
+    confirmHelpfulButton: 'Tak',
   };
   
   export const filters = {
@@ -28,6 +33,10 @@ export const urls = {
     productTitle: '[data-test="product-leaf-title"]',
     infoButton: '[data-test="info-button"]',
     productPrice: '[data-test="product-price-sale"]',
+    searchBarInput: '[data-test="search-bar-input"]',
+    searchBarButton: '[data-test="search-bar-btn"]',
+    helpNavigation: '[data-test="main-navigation"]',
+    contactUsLink: '[data-test="main-navigation"] a[role="link"][name="Skontaktuj się z nami"]',
   };
   
   export const priceRanges = {
