@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { checkPriceInRange, PriceRangePage } from './PriceRangePage';
 import { waitForAndClick, acceptAgeGateAndCookies } from './utils/helpers';
-import { urls, texts, roles, filters, locators, priceRanges, priceVerification } from './utils/testData';
+import { urls, texts, roles, filters, locators, priceRanges, priceVerification, credentials } from './utils/testData';
 
 test('Check if the product price is within the price range ', async ({ page }) => {
   await page.goto(urls.base);
@@ -59,9 +59,36 @@ test('Search for help with getting the instruction', async ({ page }) => {
   await waitForAndClick(page.getByRole('button', { name: roles.confirmHelpfulButton }));
   console.log('Confirmed the information was helpful');
 
-// Verify the text "Dzięki za opinię" appears and then disappears
-await expect(page.locator(`text=${texts.feedbackMessage}`)).toBeVisible({ timeout: 5000 });
-console.log('Feedback message appeared.');
-await expect(page.locator(`text=${texts.feedbackMessage}`)).toBeHidden({ timeout: 7000 });
-console.log('Feedback message disappeared.');
+  // Verify the text "Dzięki za opinię" appears and then disappears
+  await expect(page.locator(`text=${texts.feedbackMessage}`)).toBeVisible({ timeout: 5000 });
+  console.log('Feedback message appeared.');
+  await expect(page.locator(`text=${texts.feedbackMessage}`)).toBeHidden({ timeout: 7000 });
+  console.log('Feedback message disappeared.');
+});
+
+test('Login to the user account', async ({ page }) => {
+  await page.goto(urls.base);
+
+  // Confirm age gate and accept cookies
+  await acceptAgeGateAndCookies(page, locators);
+
+  await waitForAndClick(page.locator(locators.loginButton));
+  console.log('Clicked on login button.');
+
+  // Pick login
+  await waitForAndClick(page.locator(locators.legoIdLoginButton));
+
+  // Fill data
+  await page.locator(locators.emailInput).fill(credentials.email);
+  console.log('Flled correct email.');
+  await waitForAndClick(page.locator(locators.continueButton));
+  await page.locator(locators.passwordInput).fill(credentials.password);
+  console.log('Filled correct pass.');
+  await waitForAndClick(page.locator(locators.submitLoginButton));
+
+  // Assert user logged in
+  const accountNameLocator = page.locator(locators.accountNameText);
+  await expect(accountNameLocator).toBeVisible({ timeout: 5000 });
+  await expect(accountNameLocator).toContainText(texts.accountName);
+  console.log('Account name confirmed.');
 });
