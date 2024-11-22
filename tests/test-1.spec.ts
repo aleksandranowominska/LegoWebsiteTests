@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { checkPriceInRange, PriceRangePage } from './PriceRangePage';
 import { waitForAndClick, acceptAgeGateAndCookies, performLoginWithLegoId } from './utils/helpers';
-import { urls, texts, roles, filters, locators, priceRanges, priceVerification, credentials } from './utils/testData';
+import { urls, texts, roles, filters, locators, priceRanges, priceVerification } from './utils/testData';
 import { performGoogleSignIn } from './pages/GooglePage';
+import { loginCredentials, loginLocators, loginTexts } from './data/loginPageData';
 
 test('Check if the product price is within the price range ', async ({ page }) => {
   await page.goto(urls.base);
@@ -78,19 +79,19 @@ test('Login to the user account with email', async ({ page }) => {
   await performLoginWithLegoId(page, locators);
 
   // Fill email
-  await page.locator(locators.emailInput).fill(credentials.email);
+  await page.locator(loginLocators.emailInput).fill(loginCredentials.email);
   console.log('Filled correct email.');
-  await waitForAndClick(page.locator(locators.continueButton));
+  await waitForAndClick(page.locator(loginLocators.continueButton));
 
   // Fill password
-  await page.locator(locators.passwordInput).fill(credentials.password);
+  await page.locator(loginLocators.passwordInput).fill(loginCredentials.password);
   console.log('Filled correct password.');
-  await waitForAndClick(page.locator(locators.submitLoginButton));
+  await waitForAndClick(page.locator(loginLocators.submitLoginButton));
 
   // Assert user logged in
-  const accountNameLocator = page.locator(locators.accountNameText);
+  const accountNameLocator = page.locator(loginLocators.accountNameText);
   await expect(accountNameLocator).toBeVisible({ timeout: 5000 });
-  await expect(accountNameLocator).toContainText(texts.accountName);
+  await expect(accountNameLocator).toContainText(loginTexts.accountName);
   console.log('Account name confirmed.');
 });
 
@@ -108,8 +109,8 @@ test('Login to the user account with Google account', async ({ page }) => {
   await performGoogleSignIn(page);
 
   // Assert user logged in
-  const accountNameLocator = page.locator(locators.accountNameText);
+  const accountNameLocator = page.locator(loginLocators.accountNameText);
   await expect(accountNameLocator).toBeVisible({ timeout: 5000 });
-  await expect(accountNameLocator).toContainText(texts.accountName);
+  await expect(accountNameLocator).toContainText(loginTexts.accountName);
   console.log('Account name confirmed.');
 });

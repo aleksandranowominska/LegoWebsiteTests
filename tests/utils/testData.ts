@@ -7,13 +7,7 @@ export const urls = {
   helpPage: 'https://www.lego.com/pl-pl/help',
 };
 
-export const credentials = {
-  email: process.env.EMAIL || '',
-  password: process.env.PASSWORD || '',
-};
-
 export const texts = {
-  accountName: 'Test Test',
   productTitle: 'Piracki myśliwiec',
   bodyVerification: 'Ograniczenie',
   helpSearchQuery: 'instrukcje składania',
@@ -46,13 +40,6 @@ export const locators = {
   searchBarButton: '[data-test="search-bar-btn"]',
   helpNavigation: '[data-test="main-navigation"]',
   contactUsLink: '[data-test="main-navigation"] a[role="link"][name="Skontaktuj się z nami"]',
-  loginButton: '[data-test="header-account-cta"]',
-  legoIdLoginButton: '[data-test="legoid-login-button"]',
-  emailInput: '#username',
-  continueButton: '[data-testid="loginBtn"]',
-  passwordInput: '#password',
-  submitLoginButton: '.Button_buttonTextBase__1ban9gyw',
-  accountNameText: '[data-test="header-account-cta"] span',
 };
 
 export const priceRanges = {
