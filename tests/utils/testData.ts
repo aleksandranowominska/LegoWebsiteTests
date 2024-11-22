@@ -10,8 +10,6 @@ export const urls = {
 export const credentials = {
   email: process.env.EMAIL || '',
   password: process.env.PASSWORD || '',
-  googleEmail: process.env.GOOGLE_EMAIL || '',
-  googlePassword: process.env.GOOGLE_PASSWORD || '',
 };
 
 export const texts = {
@@ -29,7 +27,7 @@ export const filters = {
     entertainmentText: 'Rozrywka',
     sortByRecommended: 'Sortuj według:Polecane',
     sortByRating: 'Ocena',
-  };
+};
 
 export const roles = {
   buyButton: 'Kupuj',
@@ -55,13 +53,6 @@ export const locators = {
   passwordInput: '#password',
   submitLoginButton: '.Button_buttonTextBase__1ban9gyw',
   accountNameText: '[data-test="header-account-cta"] span',
-  googleSignInButton: 'ExternalLoginButtongoogle',
-  googleEmailInput: 'input#identifierId',
-  googleNextEmailButton: '#identifierNext span[jsname="V67aGc"]',
-  googlePasswordInput: 'input[name="Passwd"]',
-  googleNextPasswordButton: '#passwordNext span[jsname="V67aGc"]',
-  googleSignInErrorText: 'span[jsslot]',
-  googleTryAgainButton: 'span[jsname="V67aGc"][aria-hidden="true"]'
 };
 
 export const priceRanges = {

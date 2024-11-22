@@ -1,5 +1,7 @@
 import { expect } from "@playwright/test";
 import { credentials, locators } from "./testData";
+import { googleLocators, googleCredentials } from "../data/googlePageData.ts";
+// import { googleCredentials } from "./data/googlePageData";
 
 export async function waitForAndClick(locator) {
   await locator.waitFor(); // Wait for the element to be available
@@ -26,7 +28,7 @@ export async function performLoginWithLegoId(page, locators) {
 }
 
 async function handleGoogleSignInError(page) {
-    const tryAgainButton = page.locator(locators.googleTryAgainButton);
+    const tryAgainButton = page.locator(googleLocators.googleTryAgainButton);
     
     try {
       // Waiting for the "Try again" button
@@ -41,42 +43,42 @@ async function handleGoogleSignInError(page) {
     await tryAgainButton.click({ force: true });
     console.log('Clicked "Try again".');
     
-    const emailInput = page.locator(locators.googleEmailInput);
+    const emailInput = page.locator(googleLocators.googleEmailInput);
     await emailInput.waitFor({ state: 'visible' });
-    await emailInput.fill(credentials.googleEmail);
+    await emailInput.fill(googleCredentials.googleEmail);
     console.log('Re-filled Google email.');
     
-    await waitForAndClick(page.locator(locators.googleNextEmailButton));
+    await waitForAndClick(page.locator(googleLocators.googleNextEmailButton));
     console.log('Clicked "Next" button after retry.');
   }
 
   export async function performGoogleSignIn(page) {
     // Click on the "Sign in with Google" button
-    await waitForAndClick(page.getByTestId(locators.googleSignInButton));
+    await waitForAndClick(page.getByTestId(googleLocators.googleSignInButton));
     console.log('Clicked on Google Sign-In button.');
   
     // Wait until the page is fully loaded
     await page.waitForLoadState('networkidle');
   
     // Fill in the email
-    await page.locator(locators.googleEmailInput).fill(credentials.googleEmail);
+    await page.locator(googleLocators.googleEmailInput).fill(googleCredentials.googleEmail);
     console.log('Filled Google email.');
   
     // Click the "Next" button for email step
-    await waitForAndClick(page.locator(locators.googleNextEmailButton));
+    await waitForAndClick(page.locator(googleLocators.googleNextEmailButton));
     console.log('Clicked "Next" button after email.');
   
     // Handle potential "Try again" scenario
     await handleGoogleSignInError(page);
 
      // Wait for password input to be visible
-    await page.locator(locators.googlePasswordInput).waitFor({ state: 'visible' });
+    await page.locator(googleLocators.googlePasswordInput).waitFor({ state: 'visible' });
 
     // Fill in the password
-    await page.locator(locators.googlePasswordInput).fill(credentials.googlePassword);
+    await page.locator(googleLocators.googlePasswordInput).fill(googleCredentials.googlePassword);
     console.log('Filled Google password.');
 
     // Click the "Next" button for password step
-    await waitForAndClick(page.locator(locators.googleNextPasswordButton));
+    await waitForAndClick(page.locator(googleLocators.googleNextPasswordButton));
     console.log('Clicked "Next" button after password.');
   }
