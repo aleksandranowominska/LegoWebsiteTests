@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { checkPriceInRange, PriceRangePage } from './PriceRangePage';
-import { waitForAndClick, acceptAgeGateAndCookies, performLoginWithLegoId, performGoogleSignIn } from './utils/helpers';
+import { waitForAndClick, acceptAgeGateAndCookies, performLoginWithLegoId } from './utils/helpers';
 import { urls, texts, roles, filters, locators, priceRanges, priceVerification, credentials } from './utils/testData';
+import { performGoogleSignIn } from './pages/GooglePage';
 
 test('Check if the product price is within the price range ', async ({ page }) => {
   await page.goto(urls.base);
