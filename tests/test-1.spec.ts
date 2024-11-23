@@ -6,6 +6,7 @@ import { performGoogleSignIn } from './pages/GooglePage';
 import { loginCredentials, loginLocators, loginTexts } from './data/loginPageData';
 import { assertUserLoggedIn, clickLoginButton, loginWithLegoId } from './pages/LoginPage';
 import { helpLocators, helpTexts } from './data/helpPageData';
+import { HelpPage } from './pages/HelpPage';
 
 test('Check if the product price is within the price range ', async ({ page }) => {
   await page.goto(urls.base);
@@ -40,34 +41,25 @@ test('Check if the product price is within the price range ', async ({ page }) =
 });
 
 test('Search for help with getting the instruction', async ({ page }) => {
-  await page.goto(urls.base);
+  await page.goto('https://www.lego.com/pl-pl?age-gate=grown_up');
 
   // Confirm age gate and accept cookies
   await acceptAgeGateAndCookies(page, locators);
 
-  // Navigate to help and search
-  console.log('Navigating to help section');
-  await waitForAndClick(page.getByRole('button', { name: roles.helpButton }));
-  await waitForAndClick(page.locator(helpLocators.helpNavigation).getByRole('link', { name: 'Skontaktuj się z nami' }));
-  console.log('Navigated to "Contact Us" page.');
-  await page.locator(locators.searchBarInput).click();
-  await page.locator(locators.searchBarInput).fill(helpTexts.helpSearchQuery);
-  await page.locator(locators.searchBarButton).click();
-  console.log(`Searched query: ${helpTexts.helpSearchQuery}.`);
+  // Create an instance of HelpPage
+  const helpPage = new HelpPage(page);
 
-  // Click on result containing the expected text
-  await page.locator('a', { hasText: helpTexts.helpResultTitle }).click();
-  console.log(`Opened help article.`);
+  // Navigate and search in help section
+  await helpPage.navigateToHelpSection();
+  await helpPage.navigateToContactUs();
+  await helpPage.searchForHelp(helpTexts.helpSearchQuery);
 
-  // Confirm the information was helpful
-  await waitForAndClick(page.getByRole('button', { name: roles.confirmHelpfulButton }));
-  console.log('Confirmed the information was helpful');
+  // Open a specific help article
+  await helpPage.openHelpArticle(helpTexts.helpResultTitle);
 
-  // Verify the text "Dzięki za opinię" appears and then disappears
-  await expect(page.locator(`text=${helpTexts.feedbackMessage}`)).toBeVisible({ timeout: 5000 });
-  console.log('Feedback message appeared.');
-  await expect(page.locator(`text=${helpTexts.feedbackMessage}`)).toBeHidden({ timeout: 7000 });
-  console.log('Feedback message disappeared.');
+  // Confirm and verify feedback
+  await helpPage.confirmHelpfulness();
+  await helpPage.verifyFeedbackMessage(helpTexts.feedbackMessage);
 });
 
 test('Login to the user account with email', async ({ page }) => {
