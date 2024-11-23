@@ -20,8 +20,6 @@ export const filters = {
 };
 
 export const roles = {
-  buyButton: 'Kupuj',
-  priceRangeButton: 'Przedziały cenowe',
   helpButton: 'Pomoc',
   confirmHelpfulButton: 'Tak',
 };
@@ -34,15 +32,6 @@ export const locators = {
   productPrice: '[data-test="product-price-sale"]',
   searchBarInput: '[data-test="search-bar-input"]',
   searchBarButton: '[data-test="search-bar-btn"]',
-};
-
-export const priceRanges = {
-  allRanges: 'ZOBACZ WSZYSTKIE PRZEDZIAŁY',
-  below50: 'Poniżej 50 zł',
-  upTo100: 'zł - 100 zł',
-  upTo200: 'zł - 200 zł',
-  upTo500: 'zł - 500 zł',
-  above500: 'Ponad 500 zł',
 };
 
 export const priceVerification = {

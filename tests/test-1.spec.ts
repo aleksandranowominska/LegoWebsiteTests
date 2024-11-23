@@ -1,30 +1,27 @@
 import { test, expect } from '@playwright/test';
-import { checkPriceInRange, PriceRangePage } from './PriceRangePage';
 import { waitForAndClick, acceptAgeGateAndCookies } from './utils/helpers';
-import { urls, texts, roles, filters, locators, priceRanges, priceVerification } from './utils/testData';
+import { urls, texts, roles, filters, locators, priceVerification } from './utils/testData';
 import { performGoogleSignIn } from './pages/GooglePage';
 import { loginCredentials, loginLocators, loginTexts } from './data/loginPageData';
 import { assertUserLoggedIn, clickLoginButton, loginWithLegoId } from './pages/LoginPage';
 import { helpLocators, helpTexts } from './data/helpPageData';
 import { HelpPage } from './pages/HelpPage';
+import { navigationMenuRoles, priceRanges } from './data/navigationMenuPageData';
+import { NavigationMenuPage } from './pages/NavigationMenuPage';
 
-test('Check if the product price is within the price range ', async ({ page }) => {
+test('Check if the product price is within the price range', async ({ page }) => {
   await page.goto(urls.base);
 
   // Confirm age gate and accept cookies
   await acceptAgeGateAndCookies(page, locators);
 
-  // Navigation and filtering
-  console.log('Navigating to the price range selection');
-  const priceRangePage = new PriceRangePage(page);
-  await waitForAndClick(page.getByRole('button', { name: roles.buyButton }));
-  await waitForAndClick(page.getByRole('button', { name: roles.priceRangeButton }));
-  await priceRangePage.selectPriceRange(priceRanges.upTo200);  
-  console.log('Selected price range: up to 200.');
+  // Navigation to price range
+  const navigationMenu = new NavigationMenuPage(page);
+  await navigationMenu.navigateToPriceRange('zł - 200 zł');
+
+  // Apply filters and sorting
   await waitForAndClick(page.locator(filters.inStockCheckbox));
   await waitForAndClick(page.locator(filters.seeMoreButton));
-
-  // Sorting and selecting products
   await waitForAndClick(page.getByText(filters.entertainmentText));
   await waitForAndClick(page.getByText(filters.sortByRecommended));
   await waitForAndClick(page.getByText(filters.sortByRating));
@@ -36,8 +33,11 @@ test('Check if the product price is within the price range ', async ({ page }) =
   await page.locator('body').click();
 
   // Checking the product price
-  await checkPriceInRange(page.locator(locators.productPrice), priceVerification.from100to200.min, priceVerification.from100to200.max);
-  console.log('Product price is within the range of 100-200.');
+  await navigationMenu.checkPriceInRange(
+    page.locator(locators.productPrice),
+    priceVerification.from100to200.min,
+    priceVerification.from100to200.max
+  );
 });
 
 test('Search for help with getting the instruction', async ({ page }) => {
