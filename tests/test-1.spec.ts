@@ -10,6 +10,8 @@ import { navigationMenuRoles, priceRanges } from './data/navigationMenuPageData'
 import { NavigationMenuPage } from './pages/NavigationMenuPage';
 import { searchResultFilters, searchResultTexts } from './data/searchResultPageData';
 import { SearchResultPage } from './pages/SearchResultPage';
+import { productLocators } from './data/productPageData';
+import { ProductPage } from './pages/ProductPage';
 
 test('Check if the product price is within the price range', async ({ page }) => {
   await page.goto(urls.base);
@@ -27,16 +29,20 @@ test('Check if the product price is within the price range', async ({ page }) =>
   await searchResultPage.applySorting();
   await searchResultPage.navigateToProduct();
 
-  // Clicking outside body
-  await page.locator('body').click();
+  // Product page logic
+  const productPage = new ProductPage(page);
+  await productPage.waitForPageToLoad();
+  await productPage.clickOutsideBody();
 
   // Checking the product price
+  const productPriceLocator = productPage.getProductPriceLocator();
   await navigationMenu.checkPriceInRange(
-    page.locator(locators.productPrice),
+    productPriceLocator,
     priceVerification.from100to200.min,
     priceVerification.from100to200.max
   );
 });
+
 
 test('Search for help with getting the instruction', async ({ page }) => {
   await page.goto('https://www.lego.com/pl-pl?age-gate=grown_up');

@@ -15,8 +15,6 @@ export const locators = {
   ageGateButton: '[data-test="age-gate-grown-up-cta"]',
   cookieAcceptButton: '[data-test="cookie-accept-all"]',
   productTitle: '[data-test="product-leaf-title"]',
-  infoButton: '[data-test="info-button"]',
-  productPrice: '[data-test="product-price-sale"]',
   searchBarInput: '[data-test="search-bar-input"]',
   searchBarButton: '[data-test="search-bar-btn"]',
 };
