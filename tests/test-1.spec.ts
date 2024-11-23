@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { waitForAndClick, acceptAgeGateAndCookies } from './utils/helpers';
-import { urls, texts, roles, filters, locators, priceVerification } from './utils/testData';
+import { urls, roles, locators, priceVerification } from './utils/testData';
 import { performGoogleSignIn } from './pages/GooglePage';
 import { loginCredentials, loginLocators, loginTexts } from './data/loginPageData';
 import { assertUserLoggedIn, clickLoginButton, loginWithLegoId } from './pages/LoginPage';
@@ -8,6 +8,8 @@ import { helpLocators, helpTexts } from './data/helpPageData';
 import { HelpPage } from './pages/HelpPage';
 import { navigationMenuRoles, priceRanges } from './data/navigationMenuPageData';
 import { NavigationMenuPage } from './pages/NavigationMenuPage';
+import { searchResultFilters, searchResultTexts } from './data/searchResultPageData';
+import { SearchResultPage } from './pages/SearchResultPage';
 
 test('Check if the product price is within the price range', async ({ page }) => {
   await page.goto(urls.base);
@@ -19,15 +21,11 @@ test('Check if the product price is within the price range', async ({ page }) =>
   const navigationMenu = new NavigationMenuPage(page);
   await navigationMenu.navigateToPriceRange('zł - 200 zł');
 
-  // Apply filters and sorting
-  await waitForAndClick(page.locator(filters.inStockCheckbox));
-  await waitForAndClick(page.locator(filters.seeMoreButton));
-  await waitForAndClick(page.getByText(filters.entertainmentText));
-  await waitForAndClick(page.getByText(filters.sortByRecommended));
-  await waitForAndClick(page.getByText(filters.sortByRating));
-
-  // Navigate to specific product page
-  await waitForAndClick(page.getByLabel(texts.productTitle));
+  // Apply filters, sorting, and navigate to the product page
+  const searchResultPage = new SearchResultPage(page);
+  await searchResultPage.applyFilters();
+  await searchResultPage.applySorting();
+  await searchResultPage.navigateToProduct();
 
   // Clicking outside body
   await page.locator('body').click();

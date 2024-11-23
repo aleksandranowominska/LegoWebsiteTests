@@ -6,19 +6,6 @@ export const urls = {
   productPage: 'https://www.lego.com/pl-pl/product/pirate-snub-fighter-75346',
 };
 
-export const texts = {
-  productTitle: 'Piracki myśliwiec',
-  bodyVerification: 'Ograniczenie',
-};
-
-export const filters = {
-    inStockCheckbox: '[data-test="in-stock-items-only"] [data-test="checkbox-text"]',
-    seeMoreButton: '[data-test="product-facet-interest-accordion-content-child"] [data-test="see-more"]',
-    entertainmentText: 'Rozrywka',
-    sortByRecommended: 'Sortuj według:Polecane',
-    sortByRating: 'Ocena',
-};
-
 export const roles = {
   helpButton: 'Pomoc',
   confirmHelpfulButton: 'Tak',
