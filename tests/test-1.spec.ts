@@ -5,6 +5,7 @@ import { urls, texts, roles, filters, locators, priceRanges, priceVerification }
 import { performGoogleSignIn } from './pages/GooglePage';
 import { loginCredentials, loginLocators, loginTexts } from './data/loginPageData';
 import { assertUserLoggedIn, clickLoginButton, loginWithLegoId } from './pages/LoginPage';
+import { helpLocators, helpTexts } from './data/helpPageData';
 
 test('Check if the product price is within the price range ', async ({ page }) => {
   await page.goto(urls.base);
@@ -47,15 +48,15 @@ test('Search for help with getting the instruction', async ({ page }) => {
   // Navigate to help and search
   console.log('Navigating to help section');
   await waitForAndClick(page.getByRole('button', { name: roles.helpButton }));
-  await waitForAndClick(page.locator(locators.helpNavigation).getByRole('link', { name: 'Skontaktuj się z nami' }));
+  await waitForAndClick(page.locator(helpLocators.helpNavigation).getByRole('link', { name: 'Skontaktuj się z nami' }));
   console.log('Navigated to "Contact Us" page.');
   await page.locator(locators.searchBarInput).click();
-  await page.locator(locators.searchBarInput).fill(texts.helpSearchQuery);
+  await page.locator(locators.searchBarInput).fill(helpTexts.helpSearchQuery);
   await page.locator(locators.searchBarButton).click();
-  console.log(`Searched query: ${texts.helpSearchQuery}.`);
+  console.log(`Searched query: ${helpTexts.helpSearchQuery}.`);
 
   // Click on result containing the expected text
-  await page.locator('a', { hasText: texts.helpResultTitle }).click();
+  await page.locator('a', { hasText: helpTexts.helpResultTitle }).click();
   console.log(`Opened help article.`);
 
   // Confirm the information was helpful
@@ -63,9 +64,9 @@ test('Search for help with getting the instruction', async ({ page }) => {
   console.log('Confirmed the information was helpful');
 
   // Verify the text "Dzięki za opinię" appears and then disappears
-  await expect(page.locator(`text=${texts.feedbackMessage}`)).toBeVisible({ timeout: 5000 });
+  await expect(page.locator(`text=${helpTexts.feedbackMessage}`)).toBeVisible({ timeout: 5000 });
   console.log('Feedback message appeared.');
-  await expect(page.locator(`text=${texts.feedbackMessage}`)).toBeHidden({ timeout: 7000 });
+  await expect(page.locator(`text=${helpTexts.feedbackMessage}`)).toBeHidden({ timeout: 7000 });
   console.log('Feedback message disappeared.');
 });
 
