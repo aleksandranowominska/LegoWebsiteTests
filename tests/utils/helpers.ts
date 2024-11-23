@@ -16,13 +16,3 @@ export async function acceptAgeGateAndCookies(page, locators) {
   await waitForAndClick(page.locator(locators.cookieAcceptButton));
   console.log('Age gate confirmed and cookies accepted.');
 }
-
-export async function performLoginWithLegoId(page, locators) {
-  // Click login button
-  await waitForAndClick(page.locator(loginLocators.loginButton));
-  console.log('Clicked on login button.');
-
-  // Click LEGO ID login button
-  await waitForAndClick(page.locator(loginLocators.legoIdLoginButton));
-  console.log('Selected LEGO ID login option.');
-}

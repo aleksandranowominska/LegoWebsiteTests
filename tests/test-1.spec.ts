@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
 import { checkPriceInRange, PriceRangePage } from './PriceRangePage';
-import { waitForAndClick, acceptAgeGateAndCookies, performLoginWithLegoId } from './utils/helpers';
+import { waitForAndClick, acceptAgeGateAndCookies } from './utils/helpers';
 import { urls, texts, roles, filters, locators, priceRanges, priceVerification } from './utils/testData';
 import { performGoogleSignIn } from './pages/GooglePage';
 import { loginCredentials, loginLocators, loginTexts } from './data/loginPageData';
+import { assertUserLoggedIn, clickLoginButton, loginWithLegoId } from './pages/LoginPage';
 
 test('Check if the product price is within the price range ', async ({ page }) => {
   await page.goto(urls.base);
@@ -75,24 +76,11 @@ test('Login to the user account with email', async ({ page }) => {
   await acceptAgeGateAndCookies(page, locators);
 
   // Perform login steps
-  console.log('Performing login - happy path.');
-  await performLoginWithLegoId(page, locators);
-
-  // Fill email
-  await page.locator(loginLocators.emailInput).fill(loginCredentials.email);
-  console.log('Filled correct email.');
-  await waitForAndClick(page.locator(loginLocators.continueButton));
-
-  // Fill password
-  await page.locator(loginLocators.passwordInput).fill(loginCredentials.password);
-  console.log('Filled correct password.');
-  await waitForAndClick(page.locator(loginLocators.submitLoginButton));
+  console.log("Performing login - happy path.");
+  await loginWithLegoId(page);
 
   // Assert user logged in
-  const accountNameLocator = page.locator(loginLocators.accountNameText);
-  await expect(accountNameLocator).toBeVisible({ timeout: 5000 });
-  await expect(accountNameLocator).toContainText(loginTexts.accountName);
-  console.log('Account name confirmed.');
+  await assertUserLoggedIn(page);
 });
 
 test('Login to the user account with Google account', async ({ page }) => {
@@ -102,15 +90,12 @@ test('Login to the user account with Google account', async ({ page }) => {
   await acceptAgeGateAndCookies(page, locators);
 
   // Perform LEGO ID login steps
-  await performLoginWithLegoId(page, locators);
+  await clickLoginButton(page, locators);
 
   // Use the new Google Sign-In function
   console.log('Performing login with Google.');
   await performGoogleSignIn(page);
 
   // Assert user logged in
-  const accountNameLocator = page.locator(loginLocators.accountNameText);
-  await expect(accountNameLocator).toBeVisible({ timeout: 5000 });
-  await expect(accountNameLocator).toContainText(loginTexts.accountName);
-  console.log('Account name confirmed.');
+  await assertUserLoggedIn(page);
 });
