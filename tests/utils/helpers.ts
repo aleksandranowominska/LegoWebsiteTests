@@ -1,5 +1,4 @@
 import { expect } from "@playwright/test";
-import { locators } from "./testData";
 import { googleLocators, googleCredentials } from "../data/googlePageData.ts";
 import { loginLocators } from "../data/loginPageData.ts";
 
