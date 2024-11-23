@@ -1,7 +1,7 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { MainPage } from './pages/MainPage';
-import { performGoogleSignIn } from './pages/GooglePage';
-import { assertUserLoggedIn, loginWithLegoId } from './pages/LoginPage';
+import { GooglePage } from './pages/GooglePage';
+import { LoginPage } from './pages/LoginPage';
 import { HelpPage } from './pages/HelpPage';
 import { NavigationMenuPage } from './pages/NavigationMenuPage';
 import { SearchResultPage } from './pages/SearchResultPage';
@@ -50,14 +50,18 @@ test('Login to the user account with email', async ({ page }) => {
   const mainPage = new MainPage(page);
   await mainPage.prepareTestEnvironment();
 
-  await loginWithLegoId(page);
-  await assertUserLoggedIn(page);
+  const loginPage = new LoginPage(page);
+  await loginPage.loginWithLegoId();
+  await loginPage.assertUserLoggedIn();
 });
 
 test('Login to the user account with Google account', async ({ page }) => {
   const mainPage = new MainPage(page);
   await mainPage.prepareTestEnvironment();
 
-  await performGoogleSignIn(page);
-  await assertUserLoggedIn(page);
+  const googlePage = new GooglePage(page);
+  await googlePage.performGoogleSignIn();
+
+  const loginPage = new LoginPage(page);
+  await loginPage.assertUserLoggedIn();
 });
