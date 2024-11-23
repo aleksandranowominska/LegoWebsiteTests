@@ -30,6 +30,23 @@ export class NavigationMenuPage {
   }
 
   /**
+   * Navigates to the specified category in the navigation menu.
+   */
+  async navigateToLegoBagsCategory() {
+    // lick on "Buy" button in the navigation menu
+    await waitForAndClick(this.page.getByRole('button', { name: navigationMenuRoles.buyButton }));
+    console.log('Buy button clicked');
+
+    // Click on "Artykuły LEGO" button in the navigation menu
+    await waitForAndClick(this.page.getByRole('button', { name: navigationMenuRoles.legoArticlesButton }));
+    console.log('LEGO Articles button clicked');
+
+    // Click on "Torby i Plecaki" button in the navigation menu
+    await waitForAndClick(this.page.getByRole('link', { name: navigationMenuRoles.bagsAndBackpacksLink }));
+    console.log('Bags and Backpacks link clicked');
+  }
+
+  /**
    * Selects a specific price range on the page.
    * @param rangeName The name of the price range to click.
    */

@@ -4,6 +4,8 @@ dotenv.config();
 export const navigationMenuRoles = {
     buyButton: 'Kupuj',
     priceRangeButton: 'Przedziały cenowe',
+    legoArticlesButton: /Artykuły LEGO/,
+    bagsAndBackpacksLink: /Torby i plecaki/,
   };
 
   export const priceRanges = {

@@ -9,4 +9,11 @@ export const searchResultFilters = {
 export const searchResultTexts = {
     productTitle: 'Piracki myśliwiec',
     bodyVerification: 'Ograniczenie',
+    specificBag: 'Nerka w kształcie klocka — granatowa',
+    productConfirmation: 'Dodano do koszyka',
   };
+
+  export const searchResultLocators = {
+    addToCartButton: '[data-test="add-to-cart-skroll-cta"]',
+    viewMyBagButton: '[data-test="view-my-bag"]',
+  }

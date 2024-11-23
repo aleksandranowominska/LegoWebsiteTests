@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
 import { waitForAndClick } from '../utils/helpers';
-import { searchResultFilters, searchResultTexts } from '../data/searchResultPageData';
+import { searchResultFilters, searchResultLocators, searchResultTexts } from '../data/searchResultPageData';
 
 export class SearchResultPage {
   private page: Page;
@@ -9,8 +9,8 @@ export class SearchResultPage {
     this.page = page;
   }
 
-    // Applies filters to the search results.
-    async applyFilters(): Promise<void> {
+  // Applies filters to the search results.
+  async applyFilters(): Promise<void> {
     console.log('Applying filters to search results');
 
     // Check "In Stock" checkbox
@@ -26,9 +26,8 @@ export class SearchResultPage {
     console.log('"Entertainment" filter applied');
   }
 
- 
-    // Applies sorting to the search results.
-    async applySorting(): Promise<void> {
+  // Applies sorting to the search results.
+  async applySorting(): Promise<void> {
     console.log('Applying sorting to search results');
 
     // Click on sorting dropdown menu
@@ -40,13 +39,23 @@ export class SearchResultPage {
     console.log('Sorted by "Rating"');
   }
 
- 
-    // Navigates to the specific product page.
-    async navigateToProduct(): Promise<void> {
-    console.log('Navigating to the specific product page');
+     // Navigates to the specific product page.
+     async navigateToProduct(): Promise<void> {
+      console.log('Navigating to the specific product page');
+     }
 
-    // Click on the product title
-    await waitForAndClick(this.page.getByLabel(searchResultTexts.productTitle));
-    console.log(`Navigated to product: ${searchResultTexts.productTitle}`);
+  // Adds a specific product to the cart.
+  async addProductToCart(productName: string): Promise<void> {
+    console.log(`Adding product "${productName}" to the cart`);
+    const productLocator = this.page.locator('article').filter({ hasText: productName });
+    await productLocator.locator(searchResultLocators.addToCartButton).click();
+    console.log(`Product "${productName}" added to the cart`);
+}
+
+  // Views the shopping bag after adding a product.
+  async viewShoppingBag(): Promise<void> {
+    console.log('Viewing shopping bag');
+    await this.page.locator(searchResultLocators.viewMyBagButton).click();
+    console.log('Shopping bag opened');
   }
 }
