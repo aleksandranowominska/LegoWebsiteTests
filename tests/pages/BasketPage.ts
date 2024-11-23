@@ -18,7 +18,7 @@ export class BasketPage {
   // Verifies if a specific product is added to the basket.
   async verifyProductInBasket(productName: string, expectedQuantity: number): Promise<void> {
     console.log(`Verifying if product "${productName}" is in the basket`);
-    
+
     // Check if the product name exists in the basket
     const productNameLocator = this.page.locator('span[data-test="markup"]').filter({ hasText: productName });
     await expect(productNameLocator).toBeVisible();
@@ -34,7 +34,7 @@ export class BasketPage {
   async verifyUpdatedQuantity(expectedQuantity: number): Promise<void> {
     console.log(`Waiting for the quantity to update to ${expectedQuantity}`);
     const quantityLocator = this.page.locator('input[data-test="quantity-value"]');
-    
+
     // Wait for the value to update to the expected quantity
     await expect(quantityLocator).toHaveValue(String(expectedQuantity), { timeout: 5000 });
     console.log(`Quantity successfully updated to: ${expectedQuantity}`);
