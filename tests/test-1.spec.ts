@@ -8,11 +8,9 @@ import { SearchResultPage } from './pages/SearchResultPage';
 import { ProductPage } from './pages/ProductPage';
 import { priceVerification } from './data/productPageData';
 import { helpTexts } from './data/helpPageData';
-import { navigationMenuRoles } from './data/navigationMenuPageData';
-import { waitForAndClick } from './utils/helpers';
-import { searchResultLocators, searchResultTexts } from './data/searchResultPageData';
-import { basketPageLocators } from './data/basketPageData';
 import { BasketPage } from './pages/BasketPage';
+import { SubscriptionPage } from './pages/subscriptionPage';
+import { searchResultTexts } from './data/searchResultPageData';
 
 test('Check if the product price is within the price range', async ({ page }) => {
   const mainPage = new MainPage(page);
@@ -75,21 +73,28 @@ test('Add product to the cart, verify and increase quantity', async ({ page }) =
   const mainPage = new MainPage(page);
   await mainPage.prepareTestEnvironment();
 
-  // Navigate to LEGO Bags category
   const navigationMenuPage = new NavigationMenuPage(page);
   await navigationMenuPage.navigateToLegoBagsCategory();
 
-  // Add specific product to cart and view bag
   const searchResultPage = new SearchResultPage(page);
-  const productName = searchResultTexts.specificBag; // Now contains only the product name
+  const productName = searchResultTexts.specificBag;
   await searchResultPage.addProductToCart(productName);
   await searchResultPage.viewShoppingBag();
 
-  // Verify the product is in the basket with the correct quantity
   const basketPage = new BasketPage(page);
   await basketPage.verifyProductInBasket(productName, 1);
 
-  // Increase product quantity and verify the updated quantity
   await basketPage.increaseProductQuantity();
   await basketPage.verifyUpdatedQuantity(2);
+});
+
+test('Subscribe to newsletter', async ({ page }) => {
+  const mainPage = new MainPage(page);
+  await mainPage.prepareTestEnvironment();
+
+  await mainPage.fillAndSubmitNewsletterForm();
+
+  const subscriptionPage = new SubscriptionPage(page);
+  await subscriptionPage.assertDisplayedEmail();
+  await subscriptionPage.fillSubscriptionForm();
 });

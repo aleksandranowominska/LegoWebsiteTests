@@ -12,4 +12,6 @@ export const locators = {
   productTitle: '[data-test="product-leaf-title"]',
   searchBarInput: '[data-test="search-bar-input"]',
   searchBarButton: '[data-test="search-bar-btn"]',
+  newsletterInput: '[data-test="input-with-button-input"]',
+  newsletterButton: '[data-test="input-with-button-button"]',
 };
