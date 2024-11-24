@@ -11,7 +11,11 @@ import { helpTexts } from './data/helpPageData';
 import { BasketPage } from './pages/BasketPage';
 import { SubscriptionPage } from './pages/subscriptionPage';
 import { searchResultTexts } from './data/searchResultPageData';
+import { ApiClient } from './utils/ApiClient';
+import { PRODUCT_RECOMMENDATIONS_QUERY } from './utils/graphqlQueries';
+import { ApiHelper } from './utils/ApiHelper';
 
+// E2E tests
 test('Check if the product price is within the price range', async ({ page }) => {
   const mainPage = new MainPage(page);
   await mainPage.prepareTestEnvironment();
@@ -58,7 +62,7 @@ test('Login to the user account with email', async ({ page }) => {
   await loginPage.assertUserLoggedIn();
 });
 
-test('Login to the user account with Google account', async ({ page }) => {
+test('Login to the user account with Google', async ({ page }) => {
   const mainPage = new MainPage(page);
   await mainPage.prepareTestEnvironment();
 
@@ -97,4 +101,24 @@ test('Subscribe to newsletter', async ({ page }) => {
   const subscriptionPage = new SubscriptionPage(page);
   await subscriptionPage.assertDisplayedEmail();
   await subscriptionPage.fillSubscriptionForm();
+});
+
+// API tests
+test('Validate recommended product prices', async ({ page, request }) => {
+  const productPage = new ProductPage(page);
+
+  await productPage.openProductPage();
+
+  const cookies = await page.context().cookies();
+  console.log('Cookies obtained:', cookies);
+
+  const token = ApiHelper.getTokenFromCookies(cookies);
+  console.log('Token obtained:', token);
+
+  const apiClient = new ApiClient(request);
+  const data = await apiClient.sendGraphQLRequest(token, PRODUCT_RECOMMENDATIONS_QUERY);
+
+  ApiHelper.validateApiResponse(data);
+  const recommendedProducts = data.data.productRecommendations.recommendedProducts;
+  ApiHelper.validateRecommendedProductPrices(recommendedProducts, 200);
 });

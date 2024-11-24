@@ -3,7 +3,6 @@ dotenv.config();
 
 export const urls = {
   base: 'https://www.lego.com/pl-pl?age-gate=grown_up',
-  productPage: 'https://www.lego.com/pl-pl/product/pirate-snub-fighter-75346',
 };
 
 export const locators = {
